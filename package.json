@@ -1,0 +1,26 @@
+{
+  "name": "media-library",
+  "version": "0.0.1",
+  "private": true,
+  "description": "New Swagger API Project",
+  "keywords": [],
+  "author": "",
+  "license": "",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.12.3",
+    "swagger-express-mw": "^0.1.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-coverage": "^0.3.38",
+    "gulp-mocha": "^2.2.0",
+    "mocha": "^2.4.5",
+    "should": "^7.1.0",
+    "supertest": "^1.0.0"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "test": "node_modules/gulp/bin/gulp.js test-ci"
+  }
+}

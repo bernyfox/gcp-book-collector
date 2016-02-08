@@ -1,0 +1,178 @@
+swagger: '2.0'
+
+info:
+  version: "1.0.0"
+  title: Media Library
+
+basePath: /api
+consumes:
+  - application/json
+produces:
+  - application/json
+
+paths:
+  /books:
+    x-swagger-router-controller: books
+    get:
+      operationId: listBooks
+      description: |
+        Gets `Book` objects.
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfBooks
+            type: array
+            items:
+              $ref: "#/definitions/Book"
+    post:
+      operationId: createBook
+      description: |
+        Create a new `Book`
+      parameters:
+        - name: Book
+          in: body
+          description: Book as part of the request body
+          required: true
+          schema:
+            $ref: "#/definitions/BookCreation"
+      produces:
+        - text/plain
+      responses:
+        201:
+          description: Book created successfully
+          headers:
+            Location:
+              description: Location of the newly created `Book`
+              type: string
+        400:
+          description: Invalid Book entity received in the request body
+  
+  /books/{bookId}:
+    x-swagger-router-controller: books
+    parameters:
+      - name: bookId
+        in: path
+        type: string
+        required: true
+    get:
+      operationId: getBook
+      description: Get a specific `Book` by its id.
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: "#/definitions/Book"
+        404:
+          description: Parameter `bookId` matches no existing `Book`
+    put:
+      operationId: updateBook
+      description: Update a `Book`
+      parameters:
+        - name: Book
+          in: body
+          description: Book as part of the request body
+          required: true
+          schema:
+            $ref: "#/definitions/Book"
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: "#/definitions/Book"
+        404:
+          description: Parameter `bookId` matches no existing `Book`
+    delete:
+      operationId: deleteBook
+      description: Delete a `Book`
+      responses:
+        204:
+          description: Successful response
+        404:
+          description: Parameter `bookId` matches no existing `Book`
+          
+  /inventoryBooks:
+    get:
+      description: Search for `Book` objects from the inventory
+      parameters:
+        - name: query
+          type: string
+          in: query
+          required: true
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfBooks
+            type: array
+            items:
+              $ref: "#/definitions/Book"
+        400:
+          description: Bad request. `query` parameter is missing
+    
+
+
+definitions:
+  BookCreation:
+    allOf:
+      - $ref: "#/definitions/Book"
+      - type: object
+        required:
+          - title
+          - author
+        properties:
+          title:
+            type: string
+          author:
+            type: string
+
+  Book:
+    type: object
+    properties:
+      id:
+        type: string
+      title:
+        type: string
+      author:
+        type: string
+      illustrator:
+        type: string
+      pages:
+        type: integer
+      publisher:
+        type: string
+      publishDate:
+        type: string
+        format: date
+      signed:
+        type: boolean
+      lentTo:
+        type: string
+      isbn:
+        type: string
+      coverImage:
+        $ref: "#/definitions/Image"
+      location:
+        $ref: "#/definitions/Location"
+        
+  Image:
+    type: object
+    properties:
+      url:
+        type: string
+      width:
+        type: integer
+      height:
+        type: integer
+        
+  Location:
+    type: object
+    properties:
+      floor:
+        type: string
+      room:
+        type: string
+      library:
+        type: string
+      shelf:
+        type: string

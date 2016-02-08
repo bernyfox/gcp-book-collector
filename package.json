@@ -1,8 +1,8 @@
 {
-  "name": "media-library",
+  "name": "gcp-book-collector",
   "version": "0.0.1",
   "private": true,
-  "description": "New Swagger API Project",
+  "description": "GCP Book Collector",
   "keywords": [],
   "author": "",
   "license": "",
